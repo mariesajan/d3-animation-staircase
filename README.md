@@ -14,3 +14,7 @@ Example app done as part of learning **d3.js**
     npm start
     ```
 3. Open [http://localhost:3000](http://localhost:3000)
+
+
+### Demo
+[Demo](https://banana-shortcake-83771.herokuapp.com/)
