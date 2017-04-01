@@ -11,6 +11,6 @@ Example app done as part of learning **d3.js**
 
 2.  Start server.
     ```
-    nodemon index.js
+    npm start
     ```
 3. Open [http://localhost:3000](http://localhost:3000)
