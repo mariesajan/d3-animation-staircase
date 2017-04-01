@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>D3 Project- Staircase</title>
+  </head>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.min.js"></script>
+    <script>
+      let canvas = d3.select('body')
+                     .append('svg')
+                     .attr('width', 500)
+                     .attr('height', 500);
+
+      let data = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+      let dataUp = [10, 20, 30, 40, 50],
+          dataDown = [60, 70, 80, 90, 100],
+          dataStraight = [50, 60];
+
+      let xScale = d3.scaleLinear()
+                     .domain([10, 100])
+                     .range([0, 400]);
+
+      let yScaleUp = d3.scaleLinear()
+                       .domain([10, 50])
+                       .range([200, 100]);
+
+      let yScaleDown = d3.scaleLinear()
+                       .domain([60, 100])
+                       .range([100, 200]);
+
+      canvas.selectAll('circle')
+            .data(data)
+            .enter()
+              .append('circle')
+              .attr('cx', (d) => xScale(d)+50 )
+              .attr('cy', (d) => {
+                if(d<=50)
+                  return yScaleUp(d);
+                else {
+                  return yScaleDown(d);
+                }
+              })
+              .attr('r', 5);
+
+      let lineUp = d3.line()
+                    .x((d) => xScale(d)+50 )
+                    .y((d) => yScaleUp(d) )
+                    .curve(d3.curveStepAfter);
+
+      let straightLine = d3.line()
+                           .x((d) => xScale(d)+50 )
+                           .y((d) => 100 )
+                           .curve(d3.curveBasis);
+
+
+
+      let lineDown = d3.line()
+                    .x((d) => xScale(d)+50 )
+                    .y((d) => yScaleDown(d) )
+                    .curve(d3.curveStepBefore);
+
+      let pathUp = canvas.append('path')
+                          .attr('d', lineUp(dataUp))
+                          .attr('fill', 'none')
+                          .attr('stroke', 'black')
+                          .attr('stroke-width', '4px');
+      let pathStraight = canvas.append('path')
+                          .attr('d', straightLine(dataStraight))
+                          .attr('fill', 'none')
+                          .attr('stroke', 'black')
+                          .attr('stroke-width', '4px');
+      let pathDown = canvas.append('path')
+                          .attr('d', lineDown(dataDown))
+                          .attr('fill', 'none')
+                          .attr('stroke', 'black')
+                          .attr('stroke-width', '4px')
+
+      let pathUpLength = pathUp.node().getTotalLength();
+          pathStraightLength = pathStraight.node().getTotalLength();
+
+      pathUp
+        .attr('stroke-dasharray', pathUpLength + " " + pathUpLength)
+        .attr('stroke-dashoffset', pathUpLength)
+        .transition()
+        .duration(4000)
+        .attr('stroke-dashoffset', 0);
+
+
+
+      pathStraight
+        .attr('stroke-dasharray', pathStraightLength + " " + pathStraightLength)
+        .attr('stroke-dashoffset', pathStraightLength)
+        .transition()
+        .delay(3000)
+        .duration(1000)
+        .attr('stroke-dashoffset', 0);
+
+      pathDown
+        .attr('stroke-dasharray', pathUpLength + " " + pathUpLength)
+        .attr('stroke-dashoffset', pathUpLength)
+        .transition()
+        .delay(3000)
+        .duration(4000)
+        .attr('stroke-dashoffset', 0);
+    </script>
+  </body>
+</html>
