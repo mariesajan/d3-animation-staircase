@@ -17,4 +17,4 @@ Example app done as part of learning **d3.js**
 
 
 ### Demo
-[Demo](https://banana-shortcake-83771.herokuapp.com/)
+[Demo](https://mariesajan.github.io/d3-animation-staircase/)
